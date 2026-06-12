@@ -11,12 +11,12 @@ import {
   Send,
 } from "lucide-react";
 
-import projectImage1 from "../assets/images/project-1.jpg";
+import projectImage1 from "../assets/images/project-1.png";
 import projectImage2 from "../assets/images/project-2.jpg";
 import projectImage3 from "../assets/images/project-3.avif";
 import projectImage4 from "../assets/images/project-4.jpg";
 import projectImage5 from "../assets/images/project-5.jpg";
-import projectImage6 from "../assets/images/project-6.webp";
+import projectImage6 from "../assets/images/project-6.png";
 
 const projects = [
   {
