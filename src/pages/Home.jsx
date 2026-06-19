@@ -146,8 +146,8 @@ export default function Hero() {
             <div className="space-y-8 text-white">
               <div className="inline-flex items-center gap-2 bg-green-600/90 backdrop-blur-sm px-4 py-2 rounded-full">
                 <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
-                <span className="text-sm font-semibold uppercase tracking-wider">
-                  Premium Turf Construction
+                <span className="text-sm font-semibold uppercase tracking-wider p-3">
+                  Built by Turf Owners, For Turf Owners
                 </span>
               </div>
 

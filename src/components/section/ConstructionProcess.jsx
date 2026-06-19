@@ -152,6 +152,21 @@ export default function ConstructionProcess() {
           <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-white/10 rounded-full blur-3xl group-hover:bg-white/20 transition-all duration-500"></div>
         </div>
       </div>
+      <section className="py-18 my-20 bg-slate-900">
+        <div className="max-w-6xl mx-auto px-6 text-center">
+          <MapPin className="mx-auto text-green-600" size={50} />
+
+          <h2 className="text-4xl font-bold mt-6 text-white">
+            Vision For Growth
+          </h2>
+
+          <p className="mt-8 text-lg text-white max-w-3xl mx-auto">
+            Our vision is to expand our services to sports academies, clubs,
+            educational institutions, residential communities, and government
+            projects while growing into new cities and regions across India.
+          </p>
+        </div>
+      </section>
 
       {/* --- MODAL --- */}
       {isModalOpen && (

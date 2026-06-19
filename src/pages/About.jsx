@@ -202,52 +202,8 @@ export default function About() {
         </div>
       </section>
       {/* SERVICES */}
-      <section className="py-24">
-        <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-4xl font-bold text-center mb-16">
-            Our Service Areas
-          </h2>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            {services.map((service, index) => (
-              <div
-                key={index}
-                className="border rounded-2xl p-8 hover:bg-green-600 hover:text-white transition"
-              >
-                {service}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
       {/* PROCESS */}
-      <section className="py-24 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-4xl font-bold text-center mb-16">Our Process</h2>
-
-          <div className="grid md:grid-cols-6 gap-6">
-            {process.map((item, index) => (
-              <div
-                key={index}
-                className="bg-white p-6 rounded-xl shadow text-center"
-              >
-                {item}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
       {/* STATS */}
-      <section className="py-24 bg-green-600 text-white">
-        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-4 gap-8">
-          {stats.map((item, index) => (
-            <div key={index} className="text-center">
-              <h3 className="text-5xl font-bold">{item.value}</h3>
-              <p className="mt-2">{item.label}</p>
-            </div>
-          ))}
-        </div>
-      </section>
       {/* VISION */}
       <section className="py-24">
         <div className="max-w-6xl mx-auto px-6 text-center">
