@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import {
   ArrowRight,
@@ -18,6 +18,7 @@ import slide2 from "../assets/carosel-images/carosel-slide2.jpg";
 import slide3 from "../assets/carosel-images/carosel-slide3.jpg";
 import slide4 from "../assets/carosel-images/carosel-slide4.jpg";
 import slide5 from "../assets/carosel-images/carosel-slide5.jpg";
+import turfVideo from "../assets/images/turf-construction.mp4";
 
 const slides = [
   { id: 1, image: slide1, title: "Expert Construction" },
@@ -30,8 +31,14 @@ const slides = [
 export default function Hero() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
+  const [heroLoaded, setHeroLoaded] = useState(false);
 
-  // --- NEW STATE FOR FORM DATA ---
+  const badgeRef = useRef(null);
+  const titleRef = useRef(null);
+  const subtitleRef = useRef(null);
+  const buttonsRef = useRef(null);
+  const statsRef = useRef(null);
+
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -40,6 +47,12 @@ export default function Hero() {
     area: "",
     message: "",
   });
+
+  // Hero entrance animation on mount
+  useEffect(() => {
+    const t = setTimeout(() => setHeroLoaded(true), 100);
+    return () => clearTimeout(t);
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -51,12 +64,9 @@ export default function Hero() {
   const goToSlide = (index) => setCurrentSlide(index);
   const toggleModal = () => setIsOpen(!isOpen);
 
-  // --- NEW WHATSAPP REDIRECT FUNCTION ---
   const handleWhatsAppSubmit = (e) => {
     e.preventDefault();
-
     const myNumber = "918428013578";
-
     const text =
       `*New Quote Request*%0A%0A` +
       `*Name:* ${formData.name}%0A` +
@@ -65,7 +75,6 @@ export default function Hero() {
       `*Turf Type:* ${formData.turfType}%0A` +
       `*Area:* ${formData.area} sqft%0A` +
       `*Message:* ${formData.message}`;
-
     window.open(`https://wa.me/${myNumber}?text=${text}`, "_blank");
   };
 
@@ -78,19 +87,15 @@ export default function Hero() {
     <>
       <Helmet>
         <title>Football Turf Construction | Artificial Turf Builder</title>
-
         <meta
           name="description"
           content="Professional football turf construction company offering artificial turf installation, cricket pitch construction and sports ground development."
         />
-
         <meta
           name="keywords"
           content="football turf construction, artificial turf installation, cricket turf construction, sports turf builder, turf construction company, football ground construction"
         />
-
         <meta name="author" content="Turf Construction" />
-
         <meta
           property="og:title"
           content="Professional Turf Construction Company"
@@ -100,126 +105,146 @@ export default function Hero() {
           content="We build football turf, cricket pitch and multi-sport artificial turf grounds."
         />
         <meta property="og:type" content="website" />
-
         <link rel="canonical" href="https://yourdomain.com/" />
       </Helmet>
+
       <section
         className="relative min-h-screen pt-10 bg-gray-100 overflow-hidden"
         id="home"
       >
-        {/* Background Carousel */}
-        <div className="absolute inset-0 z-0">
-          {slides.map((slide, index) => (
-            <div
-              key={slide.id}
-              className={`absolute inset-0 transition-opacity duration-1000 ${
-                index === currentSlide ? "opacity-100" : "opacity-0"
-              }`}
-            >
-              <img
-                src={slide.image}
-                alt={slide.title}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/40"></div>
-            </div>
-          ))}
+        {/* Background Video */}
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover"
+          >
+            <source src={turfVideo} type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-black/75"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/50 to-black"></div>
+
+          {/* Animated glowing orbs */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-green-500/10 blur-[180px] rounded-full animate-glow-pulse"></div>
+          <div className="absolute top-20 left-10 w-64 h-64 bg-green-400/5 blur-[100px] rounded-full animate-float pointer-events-none"></div>
+          <div className="absolute bottom-20 right-10 w-96 h-96 bg-emerald-500/5 blur-[120px] rounded-full animate-float-slow pointer-events-none"></div>
         </div>
 
-        {/* Slide Indicators */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-30 flex gap-3">
-          {slides.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToSlide(index)}
-              className={`transition-all duration-300 rounded-full ${
-                index === currentSlide
-                  ? "w-12 h-3 bg-green-500"
-                  : "w-3 h-3 bg-white/50 hover:bg-white/80 active:scale-90"
-              }`}
-            />
-          ))}
-        </div>
-
-        <div className="relative z-20 max-w-7xl mx-auto px-4 py-20 md:py-32">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-200px)]">
-            <div className="space-y-8 text-white">
-              <div className="inline-flex items-center gap-2 bg-green-600/90 backdrop-blur-sm px-4 py-2 rounded-full">
-                <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
-                <span className="text-sm font-semibold uppercase tracking-wider p-3">
-                  Built by Turf Owners, For Turf Owners
-                </span>
+        <div className="relative z-20 flex items-center justify-center min-h-screen px-4">
+          <div className="max-w-5xl mx-auto text-center text-white">
+            <div className="space-y-10">
+              {/* Badge — slides down from top */}
+              <div
+                className={`transition-all duration-700 ease-out ${heroLoaded ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-10"}`}
+                style={{ transitionDelay: "100ms" }}
+              >
+                <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-xl border border-white/20 px-6 py-3 rounded-full shadow-xl">
+                  <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                  <span className="text-sm font-semibold uppercase tracking-wider">
+                    Built by Turf Owners, For Turf Owners
+                  </span>
+                </div>
               </div>
 
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight uppercase">
-                Build Your Dream <br />
-                <span className="text-green-400 italic">Sports Turf</span>
-              </h1>
+              {/* Main heading — slides from left */}
+              <div
+                className={`transition-all duration-800 ease-out ${heroLoaded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"}`}
+                style={{ transitionDelay: "300ms" }}
+              >
+                <h1 className="text-5xl md:text-7xl lg:text-8xl font-extrabold leading-tight uppercase tracking-tight">
+                  Build Your Dream
+                  <br />
+                  <span
+                    className={`shimmer-text italic transition-all duration-800 ease-out ${heroLoaded ? "opacity-100 translate-x-0" : "opacity-0 translate-x-20"}`}
+                    style={{ transitionDelay: "500ms" }}
+                  >
+                    Sports Turf
+                  </span>
+                </h1>
+              </div>
 
-              <p className="text-xl md:text-2xl text-gray-300 leading-relaxed max-w-lg">
-                World-class arenas designed and built with precision.
-              </p>
+              {/* Subtitle — fades up */}
+              <div
+                className={`transition-all duration-700 ease-out ${heroLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+                style={{ transitionDelay: "600ms" }}
+              >
+                <p className="text-lg md:text-2xl text-gray-200 leading-relaxed max-w-3xl mx-auto">
+                  World-class arenas designed and built with precision.
+                </p>
+              </div>
 
-              <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <button
-                  onClick={toggleModal}
-                  className="bg-green-500 cursor-pointer text-black font-bold px-8 py-4 rounded-lg text-lg hover:bg-green-400 active:bg-green-600 active:scale-95 transition-all shadow-xl flex items-center justify-center gap-3 group"
-                >
-                  <span>Get Free Quote</span>
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </button>
-                <a href="#projects" className="w-full sm:w-auto">
-                  <button className="w-full bg-white/10 backdrop-blur-md text-white border-2 border-white/30 px-8 py-4 rounded-lg text-lg hover:bg-white/20 active:bg-white/30 transition-all flex items-center justify-center gap-3 group">
-                    <Play className="w-5 h-5 group-hover:scale-110 transition-transform duration-300 fill-white" />
-                    <span className="cursor-pointer">View Projects</span>
+              {/* Buttons — slide from bottom */}
+              <div
+                className={`transition-all duration-700 ease-out ${heroLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}
+                style={{ transitionDelay: "750ms" }}
+              >
+                <div className="flex flex-col sm:flex-row gap-6 justify-center pt-4">
+                  <button
+                    onClick={toggleModal}
+                    className="bg-green-500 text-black font-bold px-10 py-5 rounded-2xl text-lg hover:bg-green-400 transition-all glow-green hover:scale-105 active:scale-95 flex items-center justify-center gap-3 cursor-pointer animate-pulse-ring"
+                  >
+                    <span>Get Free Quote</span>
+                    <ArrowRight className="w-5 h-5" />
                   </button>
-                </a>
+
+                  <a href="#projects">
+                    <button className="bg-white/10 backdrop-blur-xl border border-white/20 text-white px-10 py-5 rounded-2xl text-lg hover:bg-white/20 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 cursor-pointer">
+                      <Play className="w-5 h-5 fill-white" />
+                      <span>View Projects</span>
+                    </button>
+                  </a>
+                </div>
               </div>
+
               <span className="hidden">
                 football turf construction company, artificial turf
                 installation, cricket pitch construction, sports turf builder,
                 football ground construction Chennai, turf construction India
               </span>
 
-              {/* Stats */}
-              <div className="grid grid-cols-3 gap-6 pt-8 border-t border-white/20">
-                <div className="active:scale-105 transition-transform">
-                  <p className="text-3xl font-bold text-green-400">200+</p>
-                  <p className="text-xs uppercase text-gray-400 tracking-widest">
-                    Happy Clients
-                  </p>
-                </div>
-                <div className="active:scale-105 transition-transform">
-                  <p className="text-3xl font-bold text-green-400">10+</p>
-                  <p className="text-xs uppercase text-gray-400 tracking-widest">
-                    Projects Done
-                  </p>
-                </div>
-                <div className="active:scale-105 transition-transform">
-                  <p className="text-3xl font-bold text-green-400">98%</p>
-                  <p className="text-xs uppercase text-gray-400 tracking-widest">
-                    Satisfaction
-                  </p>
+              {/* Stats — each stat zooms in with stagger */}
+              <div
+                className={`transition-all duration-700 ease-out ${heroLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+                style={{ transitionDelay: "900ms" }}
+              >
+                <div className="grid grid-cols-3 gap-8 pt-12 max-w-3xl mx-auto border-t border-white/20">
+                  {[
+                    { value: "200+", label: "Happy Clients" },
+                    { value: "10+", label: "Projects Done" },
+                    { value: "98%", label: "Satisfaction" },
+                  ].map((stat, i) => (
+                    <div
+                      key={i}
+                      className={`transition-all duration-700 ease-out ${heroLoaded ? "opacity-100 scale-100" : "opacity-0 scale-75"}`}
+                      style={{ transitionDelay: `${950 + i * 120}ms` }}
+                    >
+                      <p
+                        className="text-4xl font-bold text-green-400 stat-number animate-bounce-gentle"
+                        style={{ animationDelay: `${i * 0.4}s` }}
+                      >
+                        {stat.value}
+                      </p>
+                      <p className="text-xs uppercase text-gray-400 tracking-widest mt-1">
+                        {stat.label}
+                      </p>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
+          </div>
+        </div>
 
-            <div className="hidden lg:block relative group">
-              <div className="bg-white/10 backdrop-blur-xl p-4 rounded-[2rem] border border-white/20 shadow-2xl transition-transform duration-500">
-                <div className="relative rounded-2xl overflow-hidden h-[500px]">
-                  <img
-                    src={slides[currentSlide].image}
-                    alt={slides[currentSlide].title}
-                    className="w-full h-full object-cover transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-8">
-                    <p className="text-2xl font-bold text-white uppercase tracking-tighter italic">
-                      {slides[currentSlide].title}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
+        {/* Scroll indicator */}
+        <div
+          className={`absolute bottom-8 left-1/2 -translate-x-1/2 z-20 transition-all duration-700 ease-out ${heroLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+          style={{ transitionDelay: "1300ms" }}
+        >
+          <div className="flex flex-col items-center gap-2 text-white/40">
+            <span className="text-xs uppercase tracking-widest">Scroll</span>
+            <div className="w-0.5 h-8 bg-gradient-to-b from-white/40 to-transparent animate-bounce-gentle"></div>
           </div>
         </div>
 
@@ -230,8 +255,11 @@ export default function Hero() {
               className="absolute inset-0 bg-black/80 backdrop-blur-md"
               onClick={toggleModal}
             ></div>
-            <div className="relative bg-white w-full max-w-xl rounded-3xl overflow-hidden shadow-2xl animate-in zoom-in duration-300">
-              <div className="bg-green-600 p-6 text-white flex justify-between items-center">
+            <div
+              className="relative bg-white w-full max-w-xl rounded-3xl overflow-hidden shadow-2xl"
+              style={{ animation: "slideInRight 0.35s ease" }}
+            >
+              <div className="bg-gradient-to-r from-green-600 to-emerald-700 p-6 text-white flex justify-between items-center">
                 <div>
                   <h2 className="text-2xl font-bold uppercase italic">
                     Request Quote
@@ -242,7 +270,7 @@ export default function Hero() {
                 </div>
                 <button
                   onClick={toggleModal}
-                  className="hover:rotate-90 active:scale-90 transition-transform bg-black/10 p-2 rounded-full"
+                  className="hover:rotate-90 active:scale-90 transition-transform bg-black/10 p-2 rounded-full cursor-pointer"
                 >
                   <X className="w-6 h-6" />
                 </button>
@@ -316,7 +344,7 @@ export default function Hero() {
                 ></textarea>
                 <button
                   type="submit"
-                  className="w-full bg-green-600 text-white font-bold py-4 rounded-xl hover:bg-green-700 active:bg-green-800 active:scale-95 transition-all flex items-center justify-center gap-2 uppercase tracking-widest shadow-lg cursor-pointer"
+                  className="w-full bg-gradient-to-r from-green-600 to-emerald-700 text-white font-bold py-4 rounded-xl hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2 uppercase tracking-widest shadow-lg cursor-pointer glow-green"
                 >
                   Send via WhatsApp <Send className="w-5 h-5" />
                 </button>

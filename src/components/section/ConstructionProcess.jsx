@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Search,
   PenTool,
@@ -47,9 +47,66 @@ const processSteps = [
   },
 ];
 
+function StepCard({ step, index }) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
+  const Icon = step.icon;
+  const fromLeft = index % 2 === 0;
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 },
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={`flex items-center gap-6 transition-all duration-700 ease-out ${
+        visible
+          ? "opacity-100 translate-x-0"
+          : fromLeft
+            ? "opacity-0 -translate-x-20"
+            : "opacity-0 translate-x-20"
+      }`}
+      style={{ transitionDelay: `${index * 120}ms` }}
+    >
+      {/* Step number badge */}
+      <div
+        className="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-green-500 to-emerald-700 rounded-2xl flex items-center justify-center text-white font-extrabold text-lg shadow-lg glow-green animate-float"
+        style={{ animationDelay: `${index * 0.4}s` }}
+      >
+        {step.number}
+      </div>
+
+      <div className="flex-1 bg-white rounded-2xl p-6 shadow-md border border-green-100 glow-card border-glow">
+        <div className="flex items-center gap-3 mb-2">
+          <div className="w-9 h-9 bg-green-100 rounded-lg flex items-center justify-center">
+            <Icon className="w-5 h-5 text-green-600" />
+          </div>
+          <h3 className="text-xl font-bold text-gray-900">{step.title}</h3>
+        </div>
+        <p className="text-gray-600 text-sm leading-relaxed">
+          {step.description}
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export default function ConstructionProcess() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const toggleModal = () => setIsModalOpen(!isModalOpen);
+  const headerRef = useRef(null);
+  const [headerVisible, setHeaderVisible] = useState(false);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -60,139 +117,107 @@ export default function ConstructionProcess() {
     message: "",
   });
 
-  // --- FIXED WHATSAPP REDIRECT FUNCTION ---
+  useEffect(() => {
+    const o = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setHeaderVisible(true);
+          o.disconnect();
+        }
+      },
+      { threshold: 0.1 },
+    );
+    if (headerRef.current) o.observe(headerRef.current);
+    return () => o.disconnect();
+  }, []);
+
   const handleWhatsAppSubmit = (e) => {
     e.preventDefault();
-
     const myNumber = "918428013578";
-
-    // Professional English Message Format
-    const text =
-      `Site Inspection Request*%0A%0A` +
-      `Name: ${formData.name}%0A` +
-      `Phone: ${formData.phone}%0A` +
-      `Site Address: ${formData.location}%0A` +
-      `Project Type: ${formData.projectType}%0A` +
-      `Approx Area: ${formData.area} sqft%0A` +
-      `Details/Time: ${formData.message}`;
-
+    const text = `Site Inspection Request*%0A%0AName: ${formData.name}%0APhone: ${formData.phone}%0ASite Address: ${formData.location}%0AProject Type: ${formData.projectType}%0AApprox Area: ${formData.area} sqft%0ADetails/Time: ${formData.message}`;
     window.open(`https://wa.me/${myNumber}?text=${text}`, "_blank");
   };
-
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   return (
-    <section className="py-20 px-4 bg-white" id="process">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl mb-4 font-bold text-gray-900 uppercase">
-            Our Turf Building Process
+    <section
+      className="py-24 px-4 bg-slate-950 relative overflow-hidden"
+      id="process"
+    >
+      {/* Animated background glow orbs */}
+      <div className="absolute top-0 left-1/4 w-96 h-96 bg-green-500/10 rounded-full blur-[120px] animate-glow-pulse pointer-events-none" />
+      <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-emerald-400/8 rounded-full blur-[100px] animate-float-slow pointer-events-none" />
+      <div className="absolute inset-0 bg-grid-pattern pointer-events-none opacity-30" />
+
+      <div className="max-w-3xl mx-auto relative z-10">
+        {/* Header */}
+        <div
+          ref={headerRef}
+          className={`text-center mb-16 transition-all duration-700 ease-out ${headerVisible ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-10"}`}
+        >
+          <span className="inline-block bg-green-900/60 text-green-400 text-sm font-semibold px-4 py-2 rounded-full mb-4 uppercase tracking-wider border border-green-700/50">
+            How We Work
+          </span>
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+            Our <span className="shimmer-text">Construction</span> Process
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto italic">
-            From concept to completion, we follow a proven process to deliver
-            exceptional results
+          <p className="text-gray-400 text-lg max-w-xl mx-auto">
+            A proven 5-step approach delivering world-class turf every time
           </p>
         </div>
 
-        {/* --- DESKTOP TIMELINE --- */}
-        <div className="hidden lg:block">
-          <div className="relative">
-            <div className="absolute top-16 left-0 right-0 h-1 bg-gradient-to-r from-green-300 via-green-500 to-green-600 mx-20"></div>
-            <div className="grid grid-cols-5 gap-4 relative">
-              {processSteps.map((step, index) => {
-                const Icon = step.icon;
-                return (
-                  <div key={index} className="flex flex-col items-center group">
-                    <div className="relative z-10 mb-6 transition-transform duration-500 group-hover:scale-110">
-                      <div className="w-32 h-32 bg-gradient-to-br from-green-500 to-green-700 rounded-full flex items-center justify-center shadow-2xl border-4 border-white">
-                        <Icon
-                          className="w-14 h-14 text-white"
-                          strokeWidth={2}
-                        />
-                      </div>
-                      <div className="absolute -top-2 -right-2 w-10 h-10 bg-orange-500 text-white rounded-full flex items-center justify-center shadow-lg font-bold">
-                        <span className="text-sm">{step.number}</span>
-                      </div>
-                    </div>
-                    <div className="text-center">
-                      <h3 className="text-xl font-bold mb-2 text-gray-900 uppercase">
-                        {step.title}
-                      </h3>
-                      <p className="text-sm text-gray-600 leading-relaxed">
-                        {step.description}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+        {/* Steps */}
+        <div className="space-y-6 relative">
+          {/* Vertical connector line */}
+          <div className="absolute left-7 top-7 bottom-7 w-0.5 bg-gradient-to-b from-green-500 via-emerald-400 to-transparent pointer-events-none hidden sm:block" />
+
+          {processSteps.map((step, index) => (
+            <StepCard key={index} step={step} index={index} />
+          ))}
         </div>
 
-        {/* --- CTA SECTION --- */}
-        <div className="mt-16 text-center p-12 bg-gradient-to-r from-green-600 to-emerald-700 rounded-[2rem] shadow-2xl relative overflow-hidden group">
-          <div className="relative z-10">
-            <h3 className="text-3xl md:text-4xl font-extrabold text-white mb-4 uppercase tracking-tight">
-              Ready to Start Your Turf Project?
-            </h3>
-            <p className="text-green-50 mb-8 text-lg max-w-xl mx-auto">
-              Our experts are ready to visit your site and provide a
-              professional assessment.
-            </p>
-            <button
-              onClick={toggleModal}
-              className="bg-white text-green-700 px-10 py-5 rounded-xl font-bold text-lg hover:bg-orange-500 hover:text-white transition-all duration-300 shadow-xl active:scale-95 uppercase tracking-widest cursor-pointer"
-            >
-              Schedule Site Inspection Now
-            </button>
-          </div>
-          <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-white/10 rounded-full blur-3xl group-hover:bg-white/20 transition-all duration-500"></div>
+        {/* CTA */}
+        <div
+          className={`mt-14 text-center transition-all duration-700 delay-700`}
+        >
+          <button
+            onClick={toggleModal}
+            className="bg-gradient-to-r from-green-500 to-emerald-600 text-white px-10 py-5 rounded-2xl font-bold text-lg cursor-pointer glow-green hover:scale-105 active:scale-95 transition-transform duration-200"
+          >
+            Book a Free Site Inspection
+          </button>
         </div>
       </div>
-      <section className="py-18 my-20 bg-slate-900">
-        <div className="max-w-6xl mx-auto px-6 text-center">
-          <MapPin className="mx-auto text-green-600" size={50} />
 
-          <h2 className="text-4xl font-bold mt-6 text-white">
-            Vision For Growth
-          </h2>
-
-          <p className="mt-8 text-lg text-white max-w-3xl mx-auto">
-            Our vision is to expand our services to sports academies, clubs,
-            educational institutions, residential communities, and government
-            projects while growing into new cities and regions across India.
-          </p>
-        </div>
-      </section>
-
-      {/* --- MODAL --- */}
       {isModalOpen && (
         <div className="fixed inset-0 z-[1000] flex items-center justify-center p-4">
           <div
             className="absolute inset-0 bg-black/80 backdrop-blur-md"
             onClick={toggleModal}
           ></div>
-          <div className="relative bg-white w-full max-w-xl rounded-3xl overflow-hidden shadow-2xl animate-in zoom-in duration-300">
-            <div className="bg-orange-500 p-6 text-white flex justify-between items-center">
+          <div
+            className="relative bg-white w-full max-w-xl rounded-3xl overflow-hidden shadow-2xl"
+            style={{ animation: "slideInLeft 0.35s ease" }}
+          >
+            <div className="bg-gradient-to-r from-green-600 to-emerald-700 p-6 text-white flex justify-between items-center">
               <div>
                 <h2 className="text-2xl font-bold uppercase italic">
-                  Book Inspection
+                  Site Inspection
                 </h2>
-                <p className="text-orange-100 text-xs mt-1">
-                  Our experts will visit your location shortly.
+                <p className="text-green-100 text-xs mt-1">
+                  We'll come to you — Free of Charge
                 </p>
               </div>
               <button
                 onClick={toggleModal}
-                className="hover:rotate-90 transition-transform bg-black/10 p-2 rounded-full"
+                className="hover:rotate-90 transition-transform bg-black/10 p-2 rounded-full cursor-pointer"
               >
                 <X className="w-6 h-6" />
               </button>
             </div>
-
             <form className="p-8 space-y-4" onSubmit={handleWhatsAppSubmit}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="relative">
@@ -200,9 +225,9 @@ export default function ConstructionProcess() {
                   <input
                     name="name"
                     type="text"
-                    onChange={handleInputChange}
                     placeholder="Full Name"
-                    className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded-xl bg-gray-50 focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all"
+                    onChange={handleInputChange}
+                    className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded-xl bg-gray-50 focus:ring-2 focus:ring-green-500 focus:outline-none"
                     required
                   />
                 </div>
@@ -211,39 +236,35 @@ export default function ConstructionProcess() {
                   <input
                     name="phone"
                     type="tel"
-                    onChange={handleInputChange}
                     placeholder="Phone Number"
-                    className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded-xl bg-gray-50 focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all"
+                    onChange={handleInputChange}
+                    className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded-xl bg-gray-50 focus:ring-2 focus:ring-green-500 focus:outline-none"
                     required
                   />
                 </div>
               </div>
-
               <div className="relative">
                 <MapPin className="absolute left-3 top-3.5 w-5 h-5 text-gray-400" />
                 <input
                   name="location"
                   type="text"
+                  placeholder="Site Address"
                   onChange={handleInputChange}
-                  placeholder="Exact Site Address"
-                  className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded-xl bg-gray-50 focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded-xl bg-gray-50 focus:ring-2 focus:ring-green-500 focus:outline-none"
                   required
                 />
               </div>
-
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="relative">
                   <Activity className="absolute left-3 top-3.5 w-5 h-5 text-gray-400" />
                   <select
                     name="projectType"
-                    className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded-xl bg-gray-50 focus:ring-2 focus:ring-orange-500 appearance-none"
                     onChange={handleInputChange}
-                    required
+                    className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded-xl bg-gray-50 focus:ring-2 focus:ring-green-500 appearance-none"
                   >
-                    <option value="">Project Type</option>
-                    <option value="Football Turf">Football Turf</option>
-                    <option value="Cricket Pitch">Cricket Pitch</option>
-                    <option value="Box Cricket">Box Cricket</option>
+                    <option>Football Turf</option>
+                    <option>Cricket Pitch</option>
+                    <option>Multi-Sport</option>
                   </select>
                 </div>
                 <div className="relative">
@@ -251,26 +272,24 @@ export default function ConstructionProcess() {
                   <input
                     name="area"
                     type="text"
+                    placeholder="Area (Sq. Ft.)"
                     onChange={handleInputChange}
-                    placeholder="Approx Area (Sq. Ft.)"
-                    className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded-xl bg-gray-50 focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all"
+                    className="w-full pl-10 pr-4 py-3 border border-gray-100 rounded-xl bg-gray-50 focus:ring-2 focus:ring-green-500 focus:outline-none"
                   />
                 </div>
               </div>
-
               <textarea
                 name="message"
                 rows="3"
+                placeholder="Preferred time for visit..."
                 onChange={handleInputChange}
-                placeholder="Preferred date/time for visit or other details..."
-                className="w-full p-4 border border-gray-100 rounded-xl bg-gray-50 focus:ring-2 focus:ring-orange-500 focus:outline-none transition-all"
+                className="w-full p-4 border border-gray-100 rounded-xl bg-gray-50 focus:ring-2 focus:ring-green-500 focus:outline-none"
               ></textarea>
-
               <button
                 type="submit"
-                className="w-full bg-orange-500 text-white font-bold py-4 rounded-xl hover:bg-orange-600 transition-all flex items-center justify-center gap-2 uppercase tracking-widest shadow-lg cursor-pointer"
+                className="w-full bg-green-600 text-white font-bold py-4 rounded-xl hover:bg-green-700 transition-all flex items-center justify-center gap-2 uppercase tracking-widest shadow-lg cursor-pointer glow-green"
               >
-                Confirm Inspection <Send className="w-5 h-5" />
+                Send via WhatsApp <Send className="w-5 h-5" />
               </button>
             </form>
           </div>
