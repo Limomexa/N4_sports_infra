@@ -89,6 +89,7 @@ export default function Footer() {
                 "Cricket Nets",
                 "Arena Setup",
                 "Maintenance",
+                "Pickle Ball",
               ].map((service) => (
                 <li key={service}>
                   <a
@@ -149,7 +150,7 @@ export default function Footer() {
 
         {/* Bottom Footer */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-gray-400 text-sm">
-          <p>© 2026 N4 SPORTS INFRA Turf Construction. All rights reserved.</p>
+          <p>© 2026 N4 Sports Infra Construction. All rights reserved.</p>
           <div className="flex gap-6">
             <button
               onClick={() => setActiveModal("privacy")}

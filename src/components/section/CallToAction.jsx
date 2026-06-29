@@ -120,7 +120,7 @@ export default function CallToAction() {
                 <p className="text-xs text-green-300 font-bold uppercase">
                   Call Us Now
                 </p>
-                <p className="text-sm font-medium">+91 (842) 801-3578</p>
+                <p className="text-sm font-medium">+91 8428013578</p>
               </div>
             </div>
 

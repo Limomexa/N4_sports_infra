@@ -36,9 +36,9 @@ function Approute() {
         <div>
           <CallToAction />
         </div>
-        <div>
+        {/* <div>
           <Testimonials />
-        </div>
+        </div> */}
         <div>
           <Contact />
         </div>

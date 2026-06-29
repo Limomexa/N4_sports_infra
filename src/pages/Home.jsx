@@ -140,12 +140,9 @@ export default function Hero() {
                 className={`transition-all duration-700 ease-out ${heroLoaded ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-10"}`}
                 style={{ transitionDelay: "100ms" }}
               >
-                <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-xl border border-white/20 px-6 py-3 rounded-full shadow-xl">
-                  <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-                  <span className="text-sm font-semibold uppercase tracking-wider">
-                    Built by Turf Owners, For Turf Owners
-                  </span>
-                </div>
+                <span className="bg-green-600/80 border border-green-500/40 px-8 py-4 rounded-full text-lg backdrop-blur-sm">
+                  Built by Turf Owners, For Turf Owners
+                </span>
               </div>
 
               {/* Main heading — slides from left */}
@@ -190,7 +187,7 @@ export default function Hero() {
                   </button>
 
                   <a href="#projects">
-                    <button className="bg-white/10 backdrop-blur-xl border border-white/20 text-white px-10 py-5 rounded-2xl text-lg hover:bg-white/20 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 cursor-pointer">
+                    <button className="w-full sm:w-auto bg-white/10 backdrop-blur-xl border border-white/20 text-white px-10 py-5 rounded-2xl hover:bg-white/20 transition-all flex items-center justify-center gap-3">
                       <Play className="w-5 h-5 fill-white" />
                       <span>View Projects</span>
                     </button>
@@ -205,7 +202,7 @@ export default function Hero() {
               </span>
 
               {/* Stats — each stat zooms in with stagger */}
-              <div
+              {/* <div
                 className={`transition-all duration-700 ease-out ${heroLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
                 style={{ transitionDelay: "900ms" }}
               >
@@ -232,14 +229,14 @@ export default function Hero() {
                     </div>
                   ))}
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
 
         {/* Scroll indicator */}
         <div
-          className={`absolute bottom-8 left-1/2 -translate-x-1/2 z-20 transition-all duration-700 ease-out ${heroLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
+          className={`absolute bottom-20 left-1/2 -translate-x-1/2 z-20 transition-all duration-700 ease-out ${heroLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
           style={{ transitionDelay: "1300ms" }}
         >
           <div className="flex flex-col items-center gap-2 text-white/40">

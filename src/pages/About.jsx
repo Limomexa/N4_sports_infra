@@ -170,9 +170,9 @@ export default function About() {
           ref={heroRef}
           className={`relative max-w-7xl mx-auto px-6 text-center transition-all duration-1000 ease-out ${heroVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"}`}
         >
-          <span className="bg-green-600/80 border border-green-500/40 px-4 py-2 rounded-full text-sm backdrop-blur-sm">
+          {/* <span className="bg-green-600/80 border border-green-500/40 px-4 py-2 rounded-full text-sm backdrop-blur-sm">
             Built by Turf Owners, For Turf Owners
-          </span>
+          </span> */}
           <h1 className="text-5xl md:text-7xl mt-6 font-bold leading-tight">
             Building Sports Infrastructure <br />
             <span className="shimmer-text">That Lasts</span>
@@ -192,7 +192,7 @@ export default function About() {
             ref={storyHeaderRef}
             className={`text-center mb-16 transition-all duration-700 ease-out ${storyHeaderVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
           >
-            <span className="text-green-600 uppercase tracking-widest font-semibold">
+            <span className="text-green-600 text-xl uppercase tracking-widest font-semibold">
               Our Journey
             </span>
             <h2 className="text-4xl mt-4 font-bold text-slate-900">
@@ -236,7 +236,7 @@ export default function About() {
           <h2 className="text-4xl font-bold text-center mb-16 text-white">
             What Makes Us <span className="shimmer-text">Different</span>
           </h2>
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-8 items-center">
             <div
               ref={diffLeftRef}
               className={`space-y-5 transition-all duration-700 ease-out ${diffLeftVisible ? "opacity-100 -translate-x-0" : "opacity-0 -translate-x-16"}`}
@@ -252,16 +252,23 @@ export default function About() {
                 </div>
               ))}
             </div>
-            <div
-              ref={diffRightRef}
-              className={`bg-gradient-to-br from-green-600 to-emerald-700 rounded-3xl p-10 transition-all duration-700 ease-out glow-green ${diffRightVisible ? "opacity-100 translate-x-0" : "opacity-0 translate-x-16"}`}
-            >
-              <h3 className="text-3xl font-bold">Built From Experience</h3>
-              <p className="mt-6 text-lg text-green-100 leading-relaxed">
-                We did not study the problem as outsiders — we lived it
-                ourselves. That experience became the foundation of our
-                company's evolution.
-              </p>
+            <div className="flex items-center justify-center">
+              <div
+                ref={diffRightRef}
+                className={`bg-gradient-to-br from-green-600 to-emerald-700 rounded-3xl p-8 max-w-lg text-center h-fit transition-all duration-700 ease-out glow-green ${
+                  diffRightVisible
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 translate-x-16"
+                }`}
+              >
+                <h3 className="text-3xl font-bold">Built From Experience</h3>
+
+                <p className="mt-4 text-lg text-green-100 leading-relaxed">
+                  We did not study the problem as outsiders — we lived it
+                  ourselves. That experience became the foundation of our
+                  company's evolution.
+                </p>
+              </div>
             </div>
           </div>
         </div>

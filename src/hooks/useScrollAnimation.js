@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-export function useScrollAnimation(options = {}) {
+export default function useScrollAnimation(options = {}) {
   const ref = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
 

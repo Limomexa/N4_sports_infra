@@ -14,7 +14,7 @@ import {
 import projectImage1 from "../assets/images/project-1.png";
 import projectImage2 from "../assets/images/project-2.jpg";
 import projectImage3 from "../assets/images/project-3.avif";
-import projectImage4 from "../assets/images/project-4.jpg";
+import projectImage4 from "../assets/images/project-4.png";
 import projectImage5 from "../assets/images/project-5.jpg";
 import projectImage6 from "../assets/images/project-6.png";
 
@@ -24,42 +24,42 @@ const projects = [
     image: projectImage1,
     name: "N4 Turf",
     location: "Perambur, Chennai - 600011",
-    landSize: "5,200 sq.m",
+    landSize: "5,200 sq.ft",
   },
   {
     id: 2,
     image: projectImage2,
     name: "Turf Tricks Arena",
     location: "Kilpauk, Chennai - 600010",
-    landSize: "8,500 sq.m",
+    landSize: "8,500 sq.ft",
   },
   {
     id: 3,
     image: projectImage3,
     name: "The Turf of Madras",
     location: "Madhavaram, Chennai - 600020",
-    landSize: "4,500 sq.m",
+    landSize: "4,500 sq.ft",
   },
   {
     id: 4,
     image: projectImage4,
     name: "The Turf Tales",
     location: "Kolathur, Chennai - 600099",
-    landSize: "4,000 sq.m",
+    landSize: "4,000 sq.ft",
   },
   {
     id: 5,
     image: projectImage5,
     name: "X Box Turf Zone",
     location: "Pattalam, Chennai - 600012",
-    landSize: "5,000 sq.m",
+    landSize: "5,000 sq.ft",
   },
   {
     id: 6,
     image: projectImage6,
     name: "N4 Turf",
     location: "Washermanpet, Chennai - 600021",
-    landSize: "4,200 sq.m",
+    landSize: "4,200 sq.ft",
   },
 ];
 
