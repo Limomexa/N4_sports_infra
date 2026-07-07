@@ -137,10 +137,29 @@ export default function Hero() {
             <div className="space-y-10">
               {/* Badge — slides down from top */}
               <div
-                className={`transition-all duration-700 ease-out ${heroLoaded ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-10"}`}
+                className={`transition-all duration-700 ease-out ${
+                  heroLoaded
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 -translate-y-10"
+                }`}
                 style={{ transitionDelay: "100ms" }}
               >
-                <span className="bg-green-600/80 border border-green-500/40 px-8 py-4 rounded-full text-lg backdrop-blur-sm">
+                <span
+                  className="
+      inline-block
+      bg-green-600/80
+      border border-green-500/40
+      rounded-full
+      backdrop-blur-sm
+
+      px-4 py-2 text-sm
+      sm:px-5 sm:py-2.5 sm:text-base
+      md:px-6 md:py-3 md:text-lg
+      lg:px-8 lg:py-4
+
+      whitespace-nowrap
+    "
+                >
                   Built by Turf Owners, For Turf Owners
                 </span>
               </div>
